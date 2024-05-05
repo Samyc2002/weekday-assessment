@@ -1,35 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useCallback, useEffect, useState } from "react";
+import LoaderCard from "./components/LoaderCard";
+import JobCard from "./components/JobCard";
+import { Jobdata } from "./jobData";
+import style from "./style";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [jobData, setJobdata] = useState<Jobdata>({
+		jdList: [],
+		totalCount: 1
+	});
+	const [totalFetched, setTotalFetched] = useState(0);
+	const limit = 10;
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const performApiCall = useCallback(async () => {
+		const myHeaders = new Headers();
+		myHeaders.append("Content-Type", "application/json");
+
+		const body = JSON.stringify({
+			limit,
+			offset: totalFetched
+		});
+
+		const requestOptions = {
+			method: "POST",
+			headers: myHeaders,
+			body
+		};
+
+		const response = await fetch(
+			"https://api.weekday.technology/adhoc/getSampleJdJSON",
+			requestOptions
+		);
+		const result = await response.json();
+
+		return result;
+	}, [totalFetched, limit]);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries: { isIntersecting: boolean }[]) => {
+				entries.forEach(async (entry: { isIntersecting: boolean }) => {
+					if (entry.isIntersecting && totalFetched < jobData.totalCount) {
+						const data = await performApiCall();
+						setJobdata((prev) => {
+							return {
+								jdList: [...prev.jdList, ...data.jdList],
+								totalCount: data.totalCount
+							};
+						});
+						setTotalFetched((prev) => Math.min(prev + limit, jobData.totalCount));
+					}
+				});
+			},
+			{
+				rootMargin: "-50px",
+				threshold: [0.2]
+			}
+		);
+
+		if (document.getElementById("loader"))
+			observer.observe(document.getElementById("loader") as HTMLElement);
+	}, [jobData, performApiCall, totalFetched]);
+
+	return (
+		<div style={style.root}>
+			<div style={style.cards}>
+				{jobData.jdList.map((jd) => (
+					<JobCard {...jd} />
+				))}
+				<div style={style.cards} id="loader">
+					{Array.from({ length: 5 }, (_, i) => (
+						<div key={i}>
+							<LoaderCard />
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
+	);
 }
 
-export default App
+export default App;
