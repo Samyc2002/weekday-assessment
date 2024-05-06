@@ -29,3 +29,8 @@ export type MinSalaryProps = {
 	minSalary: number;
 	setMinSalary: React.Dispatch<React.SetStateAction<number>>;
 };
+
+export type SearchProps = {
+	companyName: string;
+	setCompanyName: React.Dispatch<React.SetStateAction<string>>;
+};

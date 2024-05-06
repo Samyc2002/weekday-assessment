@@ -10,6 +10,7 @@ import JobCard from "./components/JobCard";
 import { Job, Jobdata } from "./jobData";
 import style from "./style";
 import "./App.css";
+import Search from "./components/Filters/Search";
 
 function App() {
 	const [jobData, setJobdata] = useState<Jobdata>({
@@ -22,7 +23,8 @@ function App() {
 	const [experience, setExperience] = useState(1);
 	const [location, setLocation] = useState("remote");
 	const [techStack, setTechStack] = useState("");
-	const [minSalary, setMinSalary] = useState(-1);
+	const [minSalary, setMinSalary] = useState(0);
+	const [companyName, setCompanyName] = useState("");
 	const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
 	const limit = 10;
 
@@ -68,7 +70,7 @@ function App() {
 			},
 			{
 				rootMargin: "-50px",
-				threshold: [0.2]
+				threshold: [0.1]
 			}
 		);
 
@@ -86,10 +88,12 @@ function App() {
 					else if (location === "hybrid") return job.location === "hybrid";
 					else return job.location !== "remote" && job.location === "hybrid";
 				})
-				.filter((job) => (minSalary === -1 ? true : job.minJdSalary === minSalary))
+				.filter((job) =>
+					minSalary === -1 || !job.minJdSalary ? true : job.minJdSalary >= minSalary
+				)
+				.filter((job) => job.companyName?.toLowerCase()?.startsWith(companyName))
 		);
-	}, [role, employee, experience, location, techStack, minSalary, jobData]);
-	console.log(totalFetched);
+	}, [role, employee, experience, location, techStack, minSalary, companyName, jobData]);
 
 	return (
 		<div style={style.root}>
@@ -100,6 +104,7 @@ function App() {
 				<Locations {...{ location, setLocation }} />
 				<TechStack {...{ techStack, setTechStack }} />
 				<MinSalary {...{ minSalary, setMinSalary }} />
+				<Search {...{ companyName, setCompanyName }} />
 			</div>
 			<div style={style.cards}>
 				{filteredJobs.map((jd) => (

@@ -1,20 +1,29 @@
+import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/base";
 import { ExperienceProps } from "./Props";
+import "./style.css";
 
 const Experience = ({ experience, setExperience }: ExperienceProps) => {
 	const experiences = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	return (
-		<select
-			name="experience"
-			onChange={(e) => {
-				setExperience(Number(e.target.value));
-			}}
-		>
-			{experiences.map((experienceData) => (
-				<option value={experienceData} selected={experience === experienceData}>
-					{experienceData}
-				</option>
-			))}
-		</select>
+		<Dropdown>
+			<MenuButton>{experience}</MenuButton>
+			<Menu
+				slotProps={{
+					listbox: { className: "CustomMenuSimple--listbox" }
+				}}
+			>
+				{experiences.map((experienceData) => (
+					<MenuItem
+						className="CustomMenuSimple--item"
+						onClick={() => {
+							setExperience(Number(experienceData));
+						}}
+					>
+						{experienceData}
+					</MenuItem>
+				))}
+			</Menu>
+		</Dropdown>
 	);
 };
 
