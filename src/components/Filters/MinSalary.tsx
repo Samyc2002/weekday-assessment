@@ -2,6 +2,7 @@ import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/base";
 import { MinSalaryProps } from "./Props";
 import "./style.css";
 
+// Filter for salary
 const MinSalary = ({ minSalary, setMinSalary }: MinSalaryProps) => {
 	const minSalaryArr = ["0L", "10L", "20L", "30L", "40L", "50L", "60L", "70L"];
 	return (

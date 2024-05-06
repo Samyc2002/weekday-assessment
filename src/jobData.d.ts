@@ -1,3 +1,4 @@
+// Job Type
 export type Job = {
 	jdUid: string | null;
 	jdLink: string | null;
@@ -13,6 +14,7 @@ export type Job = {
 	logoUrl: string | null;
 };
 
+// Job Data Type
 export type Jobdata = {
 	jdList: Job[];
 	totalCount: number;

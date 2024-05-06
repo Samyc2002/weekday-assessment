@@ -2,7 +2,10 @@ import { Button, Card, CardActions, CardContent } from "@mui/material";
 import { Job } from "../../jobData";
 import style from "./style";
 
+// Card to showe job details and take the user to the job application page
 const JobCard = ({
+	jdUid,
+	jdLink,
 	jobDetailsFromCompany,
 	maxJdSalary,
 	minJdSalary,
@@ -43,23 +46,24 @@ const JobCard = ({
 						<div style={style.exp}>
 							<p style={style.salary}>Minimum Experience</p>
 							<p>
-								{minExp} year{minExp > 1 ? "s" : ""}
+								{minExp} year{Number(minExp) > 1 ? "s" : ""}
 							</p>
 						</div>
 					</div>
 				</div>
-			</CardContent>
-			<CardActions>
 				<Button
 					variant="contained"
 					fullWidth
 					sx={{
-						borderRadius: 5
+						borderRadius: 3
 					}}
+					onClick={() => document.getElementById(jdUid || "")?.click()}
 				>
-					Apply
+					<a id={jdUid || ""} href={jdLink || ""} target="_blank" style={style.jobLink}>
+						Apply
+					</a>
 				</Button>
-			</CardActions>
+			</CardContent>
 		</Card>
 	);
 };

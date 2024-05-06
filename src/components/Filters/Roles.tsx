@@ -2,6 +2,7 @@ import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/base";
 import { RoleProps } from "./Props";
 import "./style.css";
 
+// Filter for roles
 const Roles = ({ role, setRole }: RoleProps) => {
 	const roles = ["Backend", "Frontend", "Fullstack", "IOS", "Flutter", "React Native", "Android"];
 	return (

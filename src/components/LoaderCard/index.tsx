@@ -1,5 +1,6 @@
 import "./style.css";
 
+// Loader Card for showing loading animation
 const LoaderCard = () => {
 	return (
 		<div className="card">

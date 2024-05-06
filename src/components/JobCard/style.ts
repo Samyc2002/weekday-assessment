@@ -37,6 +37,10 @@ const style = {
 	exp: {
 		display: "flex",
 		flexDirection: "column"
+	} as React.CSSProperties,
+	jobLink: {
+		textDecoration: "none",
+		color: "inherit"
 	} as React.CSSProperties
 };
 

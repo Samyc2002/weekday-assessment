@@ -2,6 +2,7 @@ import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/base";
 import { LocationProps } from "./Props";
 import "./style.css";
 
+// Filter for location
 const Locations = ({ location, setLocation }: LocationProps) => {
 	const locations = ["Remote", "Hybrid", "In-Office"];
 	return (

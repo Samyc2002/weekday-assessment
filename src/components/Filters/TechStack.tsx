@@ -2,6 +2,7 @@ import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/base";
 import { TechStackProps } from "./Props";
 import "./style.css";
 
+// Filter for tech stack
 const TechStack = ({ techStack, setTechStack }: TechStackProps) => {
 	const stack = ["Python", "Java", "GoLang"];
 	return (

@@ -2,6 +2,7 @@ import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/base";
 import { NumEmployeesProps } from "./Props";
 import "./style.css";
 
+// Filter for number of employees
 const NumEmployees = ({ employee, setEmployee }: NumEmployeesProps) => {
 	const employees = ["1-10", "11-20", "21-50", "51-100", "101-200", "201-500", "500+"];
 	return (
